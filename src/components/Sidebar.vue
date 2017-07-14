@@ -3,7 +3,7 @@
       <h3>{{$route.name}}</h3>
       <div class="msg" v-if="msg">{{msg}}</div>
       <ul>
-        <li v-for="link in links" v-if="link.always || link.login === _loggedin">
+        <li v-for="link in links" v-if="link.always || link.login === isLoggedIn">
             <router-link :to="link.url" class="btn">{{ link.title }}</router-link>
         </li>
       </ul>
@@ -15,13 +15,13 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState,mapGetters} from 'vuex'
     export default{
         name: 'sidebar',
         data () {
             return {
                 links:[
-                  {title:'Home', url:'/',always:true,login:false},
+                  {title:'Home', url:'/',login:false,always:true},
                   {title:'Login',url:'/login',login:false,always:false},
                   {title:'Admin',url:'/admin',login:true,always:false},
                   {title:'Logout',url:'/logout',login:true,always:false}
@@ -30,7 +30,7 @@
             }
         },
         computed:{
-            ...mapState(['_loggedin'])
+          ...mapGetters(['isLoggedIn'])
         },
 
     }

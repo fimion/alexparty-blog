@@ -16,43 +16,32 @@
 </template>
 
 <script>
-  import {mapGetters,mapState} from 'vuex'
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'hello',
   data () {
     return {
       msg: 'Loading...',
-      posts: []
     }
   },
   computed:{
-      apiPath(){
-         return this._username + '/' + this._posts
-      },
-      ...mapState(['_username','_posts']),
-      ...mapGetters(['jsonbin'])
+    ...mapGetters({
+      posts: 'thePosts',
+
+    })
   },
   methods:{
-      setPosts(data){
-        if(Array.isArray(data.data)){
-            data.data.sort(function(post1, post2){
-               if(post1.date > post2.date) return -1;
-               if(post1.date < post2.date) return 1;
-               return 0;
-            });
-          this.posts = data.data;
-          this.msg = 'Welcome to Alex.Party!';
-          return;
-        }
-        return Promise.reject("Returned data is not an Array.");
+      updatePosts(){
+          this.$store.dispatch('getPosts')
+            .then(this.updateMsg)
+            .catch(this.oops);
       },
-      handleError(data){
-        this.msg = 'ERROR: '+data;
+      updateMsg(data){
+        this.msg = "Welcome to Alex.Party!"
       },
-      getPosts(){
-          this.axios.get(this.jsonbin(this.apiPath))
-            .then(this.setPosts)
-            .catch(this.handleError)
+      oops(data){
+        this.msg = this.$store.posts._postsErr;
       },
       getDate(date){
           let mydate = new Date(date);
@@ -60,7 +49,7 @@ export default {
       }
   },
   mounted: function() {
-      this.getPosts();
+      this.updatePosts();
   }
 }
 </script>

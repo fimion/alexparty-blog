@@ -2,10 +2,41 @@
     <div class="admin">
       <h1>Admin</h1>
         <div v-if="!action">
-            <router-link to="admin/add">Add Post</router-link>
+            <router-link to="admin/addpost">Add Post</router-link>
+            <ul class="posts">
+                <li v-for="(post, index) in thePosts" class="post">
+                    <div class="title">
+                        <router-link :to="'/admin/editpost/'+post.id" >{{post.title}}</router-link>
+                    </div>
+                    <div class="date">
+                        {{post.date}}
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div v-else-if="action=='add'">
+        <div v-else-if="action=='addpost'">
             <h2>Add Post</h2>
+            <div class=" form">
+                <div class="post-title input">
+                    <label for="post-title">Title:</label>
+                    <input id="post-title" type="text" name="post-title" v-model="postTitle"/>
+                </div>
+                <div class="post-body input">
+                    <label for="post-body">Content:</label>
+                    <textarea id="post-body" type="" name="post-body" v-model="postBody"></textarea>
+                </div>
+                <div class="post-date input">
+                    <label for="post-date">Content:</label>
+                    <input id="post-date" type="date" name="post-date" v-model="postDate" />
+                    <p>{{unix}}</p>
+                </div>
+                <div class="input"><button @click="addPost" type="submit">Submit</button></div>
+            </div>
+
+
+        </div>
+        <div v-else-if="action=='editpost'">
+            <h2>Edit Post</h2>
             <div class=" form">
                 <div class="post-title input">
                     <label for="post-title">Title:</label>
@@ -37,7 +68,7 @@
             return {
                 postTitle:'',
                 postBody:'',
-                postDate:new Date(),
+                postDate:(new Date()).toISOString().substring(0,10),
                 postList:[],
                 error:''
 
@@ -47,6 +78,9 @@
             action:function(){
                 return this.$route.params.action;
             },
+            actionId:function(){
+                return this.$route.params.id
+            },
             unix:function(){
                 let returndate = new Date(this.postDate);
 
@@ -54,7 +88,7 @@
             },
 
             ...mapState(['_posts']),
-            ...mapGetters(['jsonbin','adminHeader'])
+            ...mapGetters(['thePosts'])
         },
         methods:{
             addPostSuccess(data){
@@ -65,15 +99,12 @@
             },
             addPost(){
                 let senddata = {
-                    'title':this.postTitle,
-                    'content':this.postBody,
-                    'date':this.unix
-                }
+                  'title': this.postTitle,
+                  'content': this.postBody,
+                  'date': this.unix
+                };
                 this.error = senddata;
-                this.$http.patch(
-                    this.jsonbin('me/'+this._posts),
-                    senddata,
-                    {headers:this.adminHeader})
+                this.$store.dispatch('addPost',senddata)
                     .then(this.addPostSuccess)
                     .catch(this.errorHandler);
             }

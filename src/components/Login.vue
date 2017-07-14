@@ -19,7 +19,7 @@
 
 <script>
 
-    import {mapState, mapMutations} from 'vuex'
+    import {mapState, mapMutations, mapActions} from 'vuex'
 
     export default{
         name: 'login',
@@ -39,9 +39,7 @@
         },
         methods:{
             validateLogin(response){
-                //this.error = data
-                this._login(response.data.token);
-                this.error = response.data;
+                this.error = response;
                 this.$router.push('/admin');
             },
             catchError(data){
@@ -50,7 +48,7 @@
             },
             doLogin(){
                 event.preventDefault();
-                this.axios.post(this._localurl + '/static/party.php', {
+                this.doAuthentication( {
                     username: this.username,
                     password: this.password
                 })
@@ -61,7 +59,8 @@
             },
             ...mapMutations({
                 _login:'login'
-            })
+            }),
+          ...mapActions(['doAuthentication'])
     },
       mounted(){
 
