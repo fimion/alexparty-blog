@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import Posts from '@/components/Posts'
 import Admin from '@/components/Admin'
 import Login from '@/components/Login'
 import Logout from '@/components/Logout'
@@ -28,8 +28,8 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'Posts',
+      component: Posts
     }
 
   ]

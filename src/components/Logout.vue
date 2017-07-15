@@ -5,6 +5,7 @@
 </template>
 
 <script>
+    import {mapMutations} from 'vuex'
     export default{
         name: 'logout',
         data () {
@@ -13,9 +14,10 @@
       methods:{
 
             doLogout(){
-                this.$store.commit('logout');
+                this.setAuthLogout();
                 this.$router.push('/');
-            }
+            },
+        ...mapMutations(['setAuthLogout'])
       },
       mounted(){
             this.doLogout();

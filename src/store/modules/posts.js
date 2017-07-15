@@ -23,7 +23,9 @@ const actions = {
   getPosts(context){
     jb.g(context.rootState._username+'/'+context.rootState._postsName)
       .then(function(data){return context.dispatch('finalizePosts',data)})
-      .catch(function(data){return context.dispatch('handlePostsError',data)});
+      .catch(function(data){
+        let error = {info:data,from:'getPosts'};
+        return context.dispatch('handlePostsError',error)});
   },
   finalizePosts(context,data){
 
@@ -56,8 +58,11 @@ const actions = {
         return context.dispatch('getPosts')
       })
       .catch(function(data){
-        data.caller = 'patch.catch';
-        return context.dispatch('handlePostsError',data)
+        let error={
+          info: data,
+          from: 'patch.catch'
+        };
+        return context.dispatch('handlePostsError',error)
       });
   },
   editPost(context,data){
@@ -75,9 +80,6 @@ const mutations = {
   setPosts(state,data){
     state._posts = data;
   },
-  setPostsError(state,data){
-    state._postsErr = 'Error: '+data;
-  }
 };
 
 export default {

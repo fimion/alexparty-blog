@@ -29,17 +29,19 @@ const getters = {
 const actions = {
   doAuthentication(context,login){
     return jb.authenticate(login)
-      .then(function(data){return context.dispatch('thenAuthLogin',data)})
-      .catch(function(data){return context.dispatch('catchAuthError',data)});
+      .then(function(data){return context.dispatch('_thenAuthLogin',data)})
+      .catch(function(data){return context.dispatch('_catchAuthError',data)});
   },
-  thenAuthLogin(context,data){
+  _thenAuthLogin(context,data){
     context.commit('setAuthLogin',data.data.token);
     return Promise.resolve('Logged in!');
   },
-  catchAuthError(context,data){
-    context.commit('setAuthError', data.data);
+  _catchAuthError(context,data){
+    let error = data;
+    error['from'] = 'doAuthentication';
+    context.commit('setAuthError', error);
     return Promise.reject('Failed!');
-  }
+  },
 };
 
 // mutations
@@ -48,8 +50,9 @@ const mutations = {
     state._authToken = token;
     state._loggedin = true;
   },
-  setAuthError(state,data){
-    state._authError = 'Error: '+ data;
+  setAuthLogout(state){
+    state._authToken = '';
+    state._loggedin = false;
   }
 
 };

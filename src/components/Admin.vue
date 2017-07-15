@@ -2,21 +2,21 @@
     <div class="admin">
       <h1>Admin</h1>
         <div v-if="!action">
-            <router-link to="admin/addpost">Add Post</router-link>
-            <ul class="posts">
-                <li v-for="(post, index) in thePosts" class="post">
+            <router-link to="admin/addpost" class="btn">Add Post</router-link>
+            <div class="posts">
+                <div v-for="(post, index) in thePosts" class="post card">
                     <div class="title">
                         <router-link :to="'/admin/editpost/'+post.id" >{{post.title}}</router-link>
                     </div>
                     <div class="date">
                         {{post.date}}
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
         <div v-else-if="action=='addpost'">
             <h2>Add Post</h2>
-            <div class=" form">
+            <div class="form card">
                 <div class="post-title input">
                     <label for="post-title">Title:</label>
                     <input id="post-title" type="text" name="post-title" v-model="postTitle"/>
@@ -37,7 +37,7 @@
         </div>
         <div v-else-if="action=='editpost'">
             <h2>Edit Post</h2>
-            <div class=" form">
+            <div class="form card">
                 <div class="post-title input">
                     <label for="post-title">Title:</label>
                     <input id="post-title" type="text" name="post-title" v-model="postTitle"/>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapState} from 'vuex'
+    import {mapGetters, mapState, mapActions} from 'vuex'
    export default{
         name: 'admin',
         data () {
@@ -107,11 +107,17 @@
                 this.$store.dispatch('addPost',senddata)
                     .then(this.addPostSuccess)
                     .catch(this.errorHandler);
+            },
+          checkForPosts(){
+            if(this.thePosts.length <= 0){
+              this.getPosts();
             }
+          },
+          ...mapActions(['getPosts'])
 
         },
         mounted(){
-
+            this.checkForPosts();
         },
 
     }
@@ -119,7 +125,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .admin{
 
+    }
     .form{
         text-align: left;
     }

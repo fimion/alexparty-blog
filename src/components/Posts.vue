@@ -4,7 +4,7 @@
     <ul class="posts">
       <li v-for="(post, index) in posts" class="post">
         <h2>{{post.title}}</h2>
-        <div class="content">
+        <div class="content card">
           {{post.content}}
         </div>
         <div class="date">
@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters,mapActions} from 'vuex'
 
 export default {
-  name: 'hello',
+  name: 'posts',
   data () {
     return {
       msg: 'Loading...',
@@ -33,7 +33,7 @@ export default {
   },
   methods:{
       updatePosts(){
-          this.$store.dispatch('getPosts')
+          this.getPosts()
             .then(this.updateMsg)
             .catch(this.oops);
       },
@@ -46,7 +46,8 @@ export default {
       getDate(date){
           let mydate = new Date(date);
           return mydate.toLocaleDateString();
-      }
+      },
+    ...mapActions(['getPosts'])
   },
   mounted: function() {
       this.updatePosts();
@@ -83,11 +84,6 @@ li.post {
 }
 
 .post .content{
-  margin: 8px 0;
-  padding:16px;
-  background-color:#e6e6e6;
-  border-radius: 10px;
-  min-height: 100px;
 
 }
 

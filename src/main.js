@@ -23,7 +23,8 @@ axios.defaults.baseURL = 'https://jsonbin.org';
  */
 router.beforeEach(function (to, from, next) {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.isLoggedIn) {
+      if (!store.getters.isLoggedIn) {
+      //if (false) {
             next({
                 path: '/login'
             });

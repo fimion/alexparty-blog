@@ -1,6 +1,6 @@
-# fimiivueblog
+# Alex.Party Blog
 
-> My Vue.js Blog using jsonbin.org
+> My Vue.js Blog using jsonbin.org as a backend
 
 ## Build Setup
 

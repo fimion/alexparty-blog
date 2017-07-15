@@ -3,7 +3,7 @@
       <h1>{{ msg }}</h1>
       <pre v-if="error!==''">{{error}}</pre>
         <div> </div>
-        <div class="form">
+        <div class="form card">
             <div class="username input">
                 <label for="username">User:</label>
                 <input id="username" type="text" name="username" v-model="username"/>
@@ -39,7 +39,6 @@
         },
         methods:{
             validateLogin(response){
-                this.error = response;
                 this.$router.push('/admin');
             },
             catchError(data){
@@ -69,7 +68,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 pre{
   display:inline-block;
   width:500px;

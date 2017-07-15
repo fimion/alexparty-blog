@@ -4,18 +4,18 @@
 import Vue from 'vue'
 import Promise from 'promise-polyfill'
 import Vuex from 'vuex'
-import * as actions from './actions'
-import * as getters from './getters'
-import * as mutations from './mutations'
+import actions from './actions'
+import getters from './getters'
+import mutations from './mutations'
 
 import auth from './modules/auth'
 import posts from './modules/posts'
+import messages from './modules/messages'
 
-import Axios from 'axios';
 if(!window.Promise){
   window.Promise = Promise;
 }
-let axios = Axios.create();
+
 Vue.use(Vuex);
 
 
@@ -31,6 +31,7 @@ export default new Vuex.Store({
   actions,
   modules:{
     auth,
-    posts
+    posts,
+    messages
   }
 });
