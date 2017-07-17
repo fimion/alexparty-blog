@@ -7,8 +7,7 @@
           {{getDate(post.date)}}
         </div>
         <h2>{{post.title}}</h2>
-        <div class="content card">
-          {{post.content}}
+        <div class="content card" v-html="post.content">
         </div>
 
       </li>
