@@ -56,7 +56,7 @@ export default {
 
   .card{
     max-width:500px;
-    width: 100%;
+    width: calc(100% - 64px);
     margin: 8px auto;
     padding:16px;
     background-color:#e6e6e6;
@@ -75,5 +75,10 @@ export default {
   }
   .card.bs5{
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+  @media screen and (max-width: 1024px){
+    .router-view{
+      margin-top: 50px;
+    }
   }
 </style>
