@@ -33,7 +33,11 @@ const mutations = {
   setPostsError(state,data){
     let error = {msg:data.info,type:'PostsError',from:data.from};
     state._messages.push(error);
-  }
+  },
+  setSuccessMessage(state,data){
+    let message = {type: 'Success!', from:data.from};
+    state._messages.push(message);
+  },
 };
 
 export default {

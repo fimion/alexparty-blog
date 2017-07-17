@@ -2,8 +2,8 @@
  <div class="messages">
   <div v-for="(message, index) in getMessages" class="message card bs5" v-on:click="closeMessage(index)">
    <h5>{{message.type}}</h5>
-   <p>From: {{message.from}}</p>
-   <pre>{{message.msg}}</pre>
+   <p>{{message.from}}</p>
+   <pre v-if="message.msg">{{message.msg}}</pre>
   </div>
  </div>
 </template>

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapState, mapActions} from 'vuex'
+    import {mapGetters, mapState, mapActions, mapMutations} from 'vuex'
    export default{
         name: 'admin',
         data () {
@@ -92,10 +92,13 @@
         },
         methods:{
             addPostSuccess(data){
-              this.error = data;
+              let message= {from:'Added Post.'};
+              this.setSuccessMessage(message);
+              this.$router.push('/admin');
             },
             errorHandler(data){
-                this.error = 'ERROR\n\n'+data;
+                let error= {from:'Admin.errorHandler',info:data};
+                this.setPostsError(error);
             },
             addPost(){
                 let senddata = {
@@ -113,7 +116,8 @@
               this.getPosts();
             }
           },
-          ...mapActions(['getPosts'])
+          ...mapActions(['getPosts']),
+          ...mapMutations(['setSuccessMessage','setPostsError'])
 
         },
         mounted(){
