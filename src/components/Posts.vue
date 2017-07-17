@@ -3,13 +3,14 @@
     <h1>{{ msg }}</h1>
     <ul class="posts">
       <li v-for="(post, index) in posts" class="post">
+        <div class="date">
+          {{getDate(post.date)}}
+        </div>
         <h2>{{post.title}}</h2>
         <div class="content card">
           {{post.content}}
         </div>
-        <div class="date">
-          {{getDate(post.date)}}
-        </div>
+
       </li>
     </ul>
   </div>
@@ -95,6 +96,13 @@ li.post {
 }
 
 a {
-  color: #42b983;
-}
+  color: #42b983;}
+
+
+  @media screen and (max-width:1024px){
+    .post .date{
+      position: static;
+      float:right;
+    }
+  }
 </style>

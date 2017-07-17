@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar" v-bind:class="{'open': menu}">
         <h3>{{$route.name}}</h3>
-        <div class="cheeseburger" @click="toggleMenu()">&#9776;</div>
+        <div class="cheeseburger btn" @click="toggleMenu()">&#9776;</div>
         <div class="msg" v-if="msg">{{msg}}</div>
         <ul>
             <li v-for="link in links" v-if="link.always || link.login == isLoggedIn" @click="closeMenu()">
@@ -67,7 +67,8 @@
     .cheeseburger {
         display: none;
         float: right;
-        margin: 16px;
+        margin: 4px 8px;
+        min-width:28px;
     }
 
     h3 {
