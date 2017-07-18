@@ -47,7 +47,6 @@ const actions = {
   },
 
   addPost(context,options){
-    console.log(context.rootGetters.getAuthHeader);
     let dataToSend = {
       url:context.rootState._postsName,
       config: {headers:context.rootGetters.getAuthHeader},
@@ -55,18 +54,45 @@ const actions = {
     };
     return jb._patch(dataToSend)
       .then(function(data){
-        return context.dispatch('getPosts')
+        return context.dispatch('getPosts');
       })
       .catch(function(data){
         let error={
           info: data,
-          from: 'patch.catch'
+          from: 'addPost.patch.catch'
         };
-        return context.dispatch('handlePostsError',error)
+        return context.dispatch('handlePostsError',error);
       });
   },
-  editPost(context,data){
-
+  editPost(context,options){
+    let dataToSend = {
+      url:context.rootState._postsName+'/'+options.id,
+      config: {headers:context.rootGetters.getAuthHeader},
+      data: options
+    };
+    delete dataToSend.data.id;
+    return jb._patch(dataToSend)
+      .then(function(data){
+        return context.dispatch('getPosts');
+      })
+      .catch(function(data){
+        let error = {
+          info:data,
+          from:'editPost.patch.catch'
+        };
+        return context.dispatch('handlePostsError', error);
+      })
+  },
+  deletePost(context,options){
+    let datatosend = {
+      url: context.rootState._postsName+'/'+options.id,
+      config: {headers:context.rootGetters.getAuthHeader},
+    };
+    jb._delete(datatosend)
+      .then(function(data){return context.dispatch('getPosts',data)})
+      .catch(function(data){
+        let error = {info:data,from:'deletePost.delete.catch'};
+        return context.dispatch('handlePostsError',error)});
   },
   handlePostsError(context,data){
     console.log(data);

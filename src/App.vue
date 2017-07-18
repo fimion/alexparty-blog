@@ -19,6 +19,7 @@ export default {
 </script>
 
 <style>
+  html, body{ margin:0; padding:0;}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -30,8 +31,13 @@ export default {
   width:100%;
   height: 100%;
 }
+a{
+  color:#6699FF;
+  text-decoration: none;
+}
 
-.btn{
+
+  .btn{
   background-color: #6699FF;
   text-decoration:none;
   color:#fff;
@@ -43,8 +49,9 @@ export default {
   cursor:pointer;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
-
 }
+  .btn.router-link-active{color:#fff;}
+
 
 .btn:hover{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);

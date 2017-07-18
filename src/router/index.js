@@ -27,10 +27,11 @@ export default new Router({
       component: Logout
     },
     {
-      path: '/',
+      path: '/posts/:date?',
       name: 'Posts',
       component: Posts
-    }
+    },
+    {path:'/',redirect:'/posts'}
 
   ]
 })

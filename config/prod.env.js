@@ -4,5 +4,8 @@ module.exports = {
     API_URL: '"https://jsonbin.org/"',
     USER_NAME: '"fimion"',
     POSTS_NAME: '"posts"',
-    PAGES_NAME: '"pages"'
+    PAGES_NAME: '"pages"',
+    DISQUS_URL: '"https://alex.party/#/posts/"',
+    DISQUS_NAME: '"alex-party"',
+    SITE_TITLE: '"Alex.Party"'
 }

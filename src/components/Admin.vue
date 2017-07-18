@@ -9,8 +9,9 @@
                         <router-link :to="'/admin/editpost/'+post.id" >{{post.title}}</router-link>
                     </div>
                     <div class="date">
-                        {{post.date}}
+                        {{new Date(post.date)}}
                     </div>
+                    <div class="delete btn" @click="deletePost(post.id)">X</div>
                 </div>
             </div>
         </div>
@@ -23,11 +24,11 @@
                 </div>
                 <div class="post-body input">
                     <label for="post-body">Content:</label>
-                    <textarea id="post-body" type="" name="post-body" v-model="postBody"></textarea>
+                    <textarea id="post-body" type="" name="post-body" class="post-body" v-model="postBody" ></textarea>
                 </div>
                 <div class="post-date input">
                     <label for="post-date">Content:</label>
-                    <input id="post-date" type="date" name="post-date" v-model="postDate" />
+                    <flat-pickr id="post-date" name="post-date" v-model="postDate" :config="flatPickrConfig"></flat-pickr>
                     <p>{{unix}}</p>
                 </div>
                 <div class="input"><button @click="addPost" type="submit">Submit</button></div>
@@ -36,22 +37,22 @@
 
         </div>
         <div v-else-if="action=='editpost'">
-            <h2>Edit Post</h2>
+            <h2>Edit Post {{actionId}}</h2>
             <div class="form card">
                 <div class="post-title input">
-                    <label for="post-title">Title:</label>
-                    <input id="post-title" type="text" name="post-title" v-model="postTitle"/>
+                    <label for="edit-post-title">Title:</label>
+                    <input id="edit-post-title" type="text" name="post-title" v-model="postTitle"/>
                 </div>
                 <div class="post-body input">
-                    <label for="post-body">Content:</label>
-                    <textarea id="post-body" type="" name="post-body" v-model="postBody"></textarea>
+                    <label for="edit-post-body">Content:</label>
+                    <textarea id="edit-post-body" type="" name="post-body" class="post-body" v-model="postBody"></textarea>
                 </div>
                 <div class="post-date input">
-                    <label for="post-date">Content:</label>
-                    <input id="post-date" type="date" name="post-date" v-model="postDate" />
+                    <label for="edit-post-date">Content:</label>
+                    <flat-pickr id="edit-post-date" name="post-date" v-model="postDate" :config="flatPickrConfig"></flat-pickr>
                     <p>{{unix}}</p>
                 </div>
-                <div class="input"><button @click="addPost" type="submit">Submit</button></div>
+                <div class="input"><button @click="editPost" type="submit">Submit</button></div>
             </div>
 
 
@@ -62,20 +63,32 @@
 
 <script>
     import {mapGetters, mapState, mapActions, mapMutations} from 'vuex'
+    import flatPickr from 'vue-flatpickr-component'
+    import 'flatpickr/dist/flatpickr.css'
    export default{
         name: 'admin',
         data () {
             return {
                 postTitle:'',
                 postBody:'',
-                postDate:(new Date()).toISOString().substring(0,10),
+                postDate: (new Date()).toISOString(),
                 postList:[],
-                error:''
+                error:'',
+              flatPickrConfig:{
+                  enableTime:true,
+              }
 
             }
         },
         computed:{
             action:function(){
+                let action = this.$route.params.action;
+                if(action ==='editpost'){
+                  let index = this.getEditIndex(this.actionId);
+                  this.postTitle = this.thePosts[index].title;
+                  this.postBody = this.thePosts[index].content;
+                  this.postDate = (new Date(this.thePosts[index].date)).toISOString();
+                }
                 return this.$route.params.action;
             },
             actionId:function(){
@@ -87,7 +100,7 @@
                 return returndate.getTime();
             },
 
-            ...mapState(['_posts']),
+            ...mapState(['posts._posts']),
             ...mapGetters(['thePosts'])
         },
         methods:{
@@ -96,6 +109,16 @@
               this.setSuccessMessage(message);
               this.$router.push('/admin');
             },
+          editPostSuccess(data){
+            let message= {from:'Edited Post.', info:data};
+            this.setSuccessMessage(message);
+            this.$router.push('/admin');
+          },
+          deletePostSuccess(data){
+            let message= {from:'Deleted Post.', info:data};
+            this.setSuccessMessage(message);
+            this.$router.push('/admin');
+          },
             errorHandler(data){
                 let error= {from:'Admin.errorHandler',info:data};
                 this.setPostsError(error);
@@ -106,7 +129,6 @@
                   'content': this.postBody,
                   'date': this.unix
                 };
-                this.error = senddata;
                 this.$store.dispatch('addPost',senddata)
                     .then(this.addPostSuccess)
                     .catch(this.errorHandler);
@@ -116,6 +138,32 @@
               this.getPosts();
             }
           },
+          getEditIndex(id){
+            let arrlength = (this.thePosts).length;
+            for(let x=0; x< arrlength; x++){
+              if(this.thePosts[x].id == id) return x;
+            }
+          },
+          editPost(){
+            let senddata = {
+              'title': this.postTitle,
+              'content': this.postBody,
+              'date': this.unix,
+              'id': this.actionId
+            };
+            this.$store.dispatch('editPost',senddata)
+              .then(this.editPostSuccess)
+              .catch(this.errorHandler);
+
+          },
+          deletePost(index){
+            if(confirm('Are you sure you want to delete this?')){
+                let datatosend = {id:index};
+                this.$store.dispatch('deletePost',datatosend)
+                  .then(this.deletePostSuccess)
+                  .catch(this.errorHandler);
+            }
+          },
           ...mapActions(['getPosts']),
           ...mapMutations(['setSuccessMessage','setPostsError'])
 
@@ -123,6 +171,9 @@
         mounted(){
             this.checkForPosts();
         },
+     components:{
+          flatPickr
+     }
 
     }
 </script>
@@ -135,9 +186,18 @@
     .form{
         text-align: left;
     }
-    #post-body{
+    .post{
+        position:relative;
+    }
+    .post-body{
         min-width: 99%;
         min-height: 250px;
 
+    }
+    .delete.btn{
+        position:absolute;
+        top:8px;
+        right: 8px;
+        min-width: 28px;
     }
 </style>

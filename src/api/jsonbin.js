@@ -25,19 +25,23 @@ export default{
     return axios.post(this._localurl + '/static/party.php', login)
   },
   _get(options){
-
+    return axios.get(this._jsonbin+'me/'+options.url,options.config)
+      .catch(function(data){console.log('jsbonbin get Error:',data); return Promise.reject(data)});
   },
   _post(options){
-
+    return axios.post(this._jsonbin+'me/'+options.url,options.data,options.config)
+      .catch(function(data){console.log('jsbonbin post Error:',data); return Promise.reject(data)});
   },
   _put(options){
-
+    return axios.put(this._jsonbin+'me/'+options.url,options.data,options.config)
+      .catch(function(data){console.log('jsbonbin put Error:',data); return Promise.reject(data)});
   },
   _patch(options){
     return axios.patch(this._jsonbin+'me/'+options.url,options.data,options.config)
-      .catch(function(data){console.log('jsbonbin Error:',data); return Promise.reject(data)});
+      .catch(function(data){console.log('jsbonbin patch Error:',data); return Promise.reject(data)});
   },
   _delete(options){
-
+    return axios.delete(this._jsonbin+'me/'+options.url,options.config)
+      .catch(function(data){console.log('jsbonbin delete Error:',data); return Promise.reject(data)});
   }
 }
