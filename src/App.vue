@@ -64,24 +64,35 @@ a{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
   #sidebar{
-    grid-area: sidebar;
+    grid-column-start:1;
+    grid-row-start: 2;
+    grid-row-end: auto;
   }
   #router-view{
-    grid-area: routerview;
+    grid-column-start: 2;
+    grid-column-end: 8;
+    grid-row-start: 2;
+    grid-row-end: auto;
     margin-top: 128px;
   }
 
   #messages{
-    grid-area: messages;
+    grid-column-start: 6;
+    grid-column-end: 8;
+    grid-row-start: 2;
+    grid-row-end: auto;
+    z-index: 5000;
   }
   #header{
-    grid-area: header;
+    grid-column-start: 1;
+    grid-column-end: 8;
+
   }
 
   .card{
     background-color:#e6e6e6;
     border-radius: 2px;
-    margin:8px auto;
+    margin:0 auto 16px;
     max-width:800px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
@@ -97,15 +108,11 @@ a{
   .card.bs5{
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   }
-  @supports (grid-area: auto){
+  @supports (display:grid){
     @media screen and (min-width: 1000px){
       #app{
         display:grid;
-        grid-template-columns: 2fr 8fr 2fr;
-        grid-template-areas:
-                "header    header    header  "
-                "sidebar routerview  messages"
-                "   .    routerview   .      ";
+        grid-template-columns: repeat(7, 1fr);
         grid-gap:16px;
       }
       #sidebar{

@@ -77,7 +77,7 @@
     ul li{display:inline-block; padding:0;}
     @supports (grid-area: auto) {
         @media screen and (min-width: 1000px){
-            :root:root:root .sidebar{
+            .sidebar{
                 position:static;
                 max-height: 100%;
             }

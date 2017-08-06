@@ -39,7 +39,7 @@ router.beforeEach(function (to, from, next) {
 });
 
 Vue.use(VueAxios, axios);
-Vue.component('post-card', ApPost);
+Vue.component('ap-post', ApPost);
 
 
 Vue.config.productionTip = false;

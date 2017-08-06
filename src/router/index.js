@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Posts from '@/components/Posts'
-import Admin from '@/components/Admin'
-import Login from '@/components/Login'
-import Logout from '@/components/Logout'
+import Posts from './views/Posts'
+import Admin from './views/Admin'
+import Login from './views/Login'
+import Logout from './views/Logout'
 
 Vue.use(Router);
 

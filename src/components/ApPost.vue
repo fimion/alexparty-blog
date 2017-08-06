@@ -1,6 +1,6 @@
 <template>
     <div v-if="!excerpt">
-        <div class="post card">
+        <div class="post">
             <h2>{{post.title}}</h2>
             <div class="date">
                 {{getDate(post.date)}}
@@ -9,11 +9,11 @@
             </div>
         </div>
         <router-link to="/posts" class="btn">Back to Posts</router-link>
-        <div class="disqus card">
+        <div class="disqus">
             <vue-disqus :shortname="disqusName" :identifier="post.date.toString()" :url="getSinglePostUrl" :title="post.title"></vue-disqus>
         </div>
     </div>
-    <div class="card post" v-else>
+    <div class="post" v-else>
         <h2><router-link :to="'/posts/'+post.date">{{post.title}}</router-link></h2>
         <div class="date">
             {{getDate(post.date)}}
@@ -77,12 +77,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .post{
-        display: block;
-        margin: 8px auto;
-        text-align: left;
-        max-width: 500px;
-        width:100%;
-        position:relative;
+    @media screen and (min-width: 1000px){
+        @supports (grid-area: auto) {
+
+        }
     }
 </style>

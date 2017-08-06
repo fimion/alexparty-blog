@@ -1,27 +1,10 @@
 <template>
-    <div v-if="isSinglePost" class="posts">
-      <div class="post card">
-        <h2>{{getSinglePost.title}}</h2>
-        <div class="date">
-          {{getDate(getSinglePost.date)}}
-        </div>
-        <div class="content" v-html="getSinglePost.content">
-        </div>
-      </div>
-      <router-link to="/posts" class="btn">Back to Posts</router-link>
-      <div class="disqus card">
-      <vue-disqus :shortname="disqusName" :identifier="getSinglePost.date.toString()" :url="getSinglePostUrl" :title="getSinglePost.title"></vue-disqus>
-      </div>
-    </div>
-    <div v-else>
-      <div v-for="(post, index) in posts" class="card post">
-        <h2><router-link :to="'/posts/'+post.date">{{post.title}}</router-link></h2>
-        <div class="date">
-          {{getDate(post.date)}}
-        </div>
-        <div class="content" v-html="post.content">
-        </div>
-      </div>
+    <ap-post v-if="isSinglePost" :post="getSinglePost" class="card">
+    </ap-post>
+    <div class="posts" v-else>
+      <template v-for="(post, index) in posts">
+        <ap-post :post="post" :excerpt="true" class="card"></ap-post>
+      </template>
     </div>
 </template>
 
@@ -95,9 +78,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  @media screen and (min-width: 1000px){
-    @supports (grid-area: auto) {
 
-    }
-  }
 </style>

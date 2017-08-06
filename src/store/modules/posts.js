@@ -21,11 +21,19 @@ const getters = {
 // actions
 const actions = {
   getPosts(context){
-    jb.g(context.rootState._username+'/'+context.rootState._postsName)
-      .then(function(data){return context.dispatch('finalizePosts',data)})
-      .catch(function(data){
-        let error = {info:data,from:'getPosts'};
-        return context.dispatch('handlePostsError',error)});
+    if(typeof window.INITIALPOSTS === 'undefined') {
+        jb.g(context.rootState._username + '/' + context.rootState._postsName)
+            .then(function (data) {
+                return context.dispatch('finalizePosts', data)
+            })
+            .catch(function (data) {
+                let error = {info: data, from: 'getPosts'};
+                return context.dispatch('handlePostsError', error)
+            });
+    }
+    else {
+        context.dispatch('finalizePosts', {data:window.INITIALPOSTS});
+    }
   },
   finalizePosts(context,data){
 
