@@ -10,4 +10,7 @@ export default {
     state._loggedin = false;
     state._authToken = '';
   },*/
+  updateMenu(state, message){
+    state._menuOpen = message;
+  }
 }

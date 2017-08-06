@@ -1,20 +1,17 @@
 <template>
     <div class="sidebar" v-bind:class="{'open': menu}">
-        <h3>{{$route.name}}</h3>
-        <div class="cheeseburger btn" @click="toggleMenu()">&#9776;</div>
-        <div class="msg" v-if="msg">{{msg}}</div>
         <ul>
-            <li v-for="link in links" v-if="link.always || link.login == isLoggedIn" @click="closeMenu()">
+            <li v-for="link in links" v-if="link.always || link.login == isLoggedIn" @click="closeMenu()" class="sidebar-link">
                 <router-link :to="link.url" class="btn">{{ link.title }}</router-link>
             </li>
-            <li><span class="btn" v-on:click="setAuthError({info:'Test',from:'SidebarButton'});closeMenu()">Test Message</span></li>
+            <li class="sidebar-link"><span class="btn" v-on:click="setAuthError({info:'Test',from:'SidebarButton'});closeMenu()">Test Message</span></li>
+            <li class="sidebar-link"><a href="https://github.com/fimion/alexparty-blog" class="btn" target="_blank" @click="closeMenu()">View the Mess on Github</a></li>
         </ul>
         <h6>What is this?</h6>
         <p>This is a blog made by <a href="mailto:fimion@gmail.com">Alex Riviere</a> using Vue and <a
                 href="https://jsonbin.org" target="_blank">JsonBin</a>
             as a backend. It's mostly a proof of concept to see if it could be done.
         </p>
-        <a href="https://github.com/fimion/alexparty-blog" class="btn" target="_blank" @click="closeMenu()">View the Mess on Github</a>
     </div>
 </template>
 
@@ -31,10 +28,17 @@
           {title: 'Logout', url: '/logout', login: true, always: false}
         ],
         msg: '',
-        menu: false
       }
     },
     computed: {
+      menu:{
+        get(){
+          return this.$store.state._menuOpen;
+        },
+        set(value){
+          this.$store.commit('updateMenu', value);
+        }
+      },
       ...mapGetters(['isLoggedIn'])
     },
     methods: {
@@ -52,59 +56,34 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .sidebar {
-        max-width: 300px;
-        background: #e6e6e6;
-        height: 100%;
-        width: 20vw;
-        text-align: center;
-        position: fixed;
-        top: 0;
+    .sidebar{
+        position:fixed;
+        top:60px;
         left: 0;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23);
+        width: 100%;
+        text-align: left;
+        background-color: #e6e6e6;
+        padding-top: 0px;
+        overflow: hidden;
+        max-height:0px;
+        transition: max-height 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        z-index: 50;
     }
-
-    .cheeseburger {
-        display: none;
-        float: right;
-        margin: 4px 8px;
-        min-width:28px;
+    .sidebar.open{
+        max-height:100%;
     }
-
-    h3 {
-
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    ul li {
-        padding: 0;
-        margin: 0;
-    }
-
-    p {
-        padding: 0 32px;
-    }
-    @media screen and (max-width:1023px){
-        .sidebar{
-            height:50px;
-            overflow: hidden;
-            max-width: 100%;
-            width:100%;
-            transition:height 0.2s ease;
-            z-index: 1000;
-        }
-        .sidebar.open{
-            height:100%;
-        }
-        h3{display:inline-block; float:left; margin: 16px;}
-        .cheeseburger{display:inline-block;}
-        ul{
-            margin-top: 64px;
+    ul{list-style: none;}
+    ul li{display:inline-block; padding:0;}
+    @supports (grid-area: auto) {
+        @media screen and (min-width: 1000px){
+            :root:root:root .sidebar{
+                position:static;
+                max-height: 100%;
+            }
+            ul li.sidebar-link{
+                display:block;
+            }
         }
     }
 </style>

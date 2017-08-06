@@ -12,7 +12,7 @@
                 <label for="password">Password:</label>
                 <input id="password" type="password" name="password" v-model="password"/>
             </div>
-            <div><button @click="doLogin" type="submit">Submit</button></div>
+            <div><button @click="doLogin" @keyup.enter="doLogin" type="submit" class="btn">Submit</button></div>
         </div>
     </div>
 </template>
@@ -69,27 +69,5 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-pre{
-  display:inline-block;
-  width:500px;
-  text-align: left;
-}
 
-    .form{
-        max-width:500px;
-        width: 100%;
-        min-height:200px;
-        border-radius:10px;
-        background-color: #e6e6e6;
-        display:inline-flex;
-        flex-flow: column;
-        justify-content: center;
-    }
-    .input{
-        padding:8px;
-
-    }
-    .input label{
-        display:block;
-    }
 </style>

@@ -1,41 +1,46 @@
 <template>
   <div id="app">
-    <sidebar></sidebar>
-    <router-view class="router-view"></router-view>
-    <messages></messages>
+    <header-bar id="header"></header-bar>
+    <sidebar id="sidebar"></sidebar>
+    <router-view id="router-view"></router-view>
+    <messages id="messages"></messages>
   </div>
 </template>
 
 <script>
 import Sidebar from '@/components/Sidebar'
 import Messages from '@/components/Messages'
+import HeaderBar from '@/components/Header'
+
 export default {
   name: 'app',
   components:{
       Sidebar,
-      Messages
+      Messages,
+    HeaderBar,
   }
 }
 </script>
 
 <style>
-  html, body{ margin:0; padding:0;}
+  *{margin:0; padding:0;box-sizing: border-box;}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  display: flex;
   padding:0;
   width:100%;
   height: 100%;
+}
+h1,h2,h3,h4,h5,h6{
+  /*-webkit-margin-before:0; -webkit-margin-after: 0;  -webkit-margin-start: 0;  -webkit-margin-end: 0;*/line-height: 1em;
 }
 a{
   color:#6699FF;
   text-decoration: none;
 }
-
 
   .btn{
   background-color: #6699FF;
@@ -47,6 +52,8 @@ a{
   border-radius:2px;
   min-width: 100px;
   cursor:pointer;
+    border:none;
+    text-align: center;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
 }
@@ -56,19 +63,26 @@ a{
 .btn:hover{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-  .router-view{
-    padding:16px;
-    flex-grow: 2;
+  #sidebar{
+    grid-area: sidebar;
+  }
+  #router-view{
+    grid-area: routerview;
+    margin-top: 128px;
+  }
+
+  #messages{
+    grid-area: messages;
+  }
+  #header{
+    grid-area: header;
   }
 
   .card{
-    max-width:500px;
-    width: calc(100% - 64px);
-    margin: 8px auto;
-    padding:16px;
     background-color:#e6e6e6;
     border-radius: 2px;
-    min-height: 100px;
+    margin:8px auto;
+    max-width:800px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
   .card.bs2{
@@ -83,9 +97,23 @@ a{
   .card.bs5{
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   }
-  @media screen and (max-width: 1024px){
-    .router-view{
-      margin-top: 50px;
+  @supports (grid-area: auto){
+    @media screen and (min-width: 1000px){
+      #app{
+        display:grid;
+        grid-template-columns: 2fr 8fr 2fr;
+        grid-template-areas:
+                "header    header    header  "
+                "sidebar routerview  messages"
+                "   .    routerview   .      ";
+        grid-gap:16px;
+      }
+      #sidebar{
+        text-align: center;
+      }
+      #router-view{
+        margin-top: 0;
+      }
     }
   }
 </style>

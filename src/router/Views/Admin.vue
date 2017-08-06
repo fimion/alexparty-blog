@@ -31,7 +31,7 @@
                     <flat-pickr id="post-date" name="post-date" v-model="postDate" :config="flatPickrConfig"></flat-pickr>
                     <p>{{unix}}</p>
                 </div>
-                <div class="input"><button @click="addPost" type="submit">Submit</button></div>
+                <div class="input"><button @click="addPost" type="submit" class="btn">Submit</button></div>
             </div>
 
 
@@ -52,7 +52,7 @@
                     <flat-pickr id="edit-post-date" name="post-date" v-model="postDate" :config="flatPickrConfig"></flat-pickr>
                     <p>{{unix}}</p>
                 </div>
-                <div class="input"><button @click="editPost" type="submit">Submit</button></div>
+                <div class="input"><button @click="editPost" type="submit" class="btn" >Submit</button></div>
             </div>
 
 
@@ -180,24 +180,5 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .admin{
 
-    }
-    .form{
-        text-align: left;
-    }
-    .post{
-        position:relative;
-    }
-    .post-body{
-        min-width: 99%;
-        min-height: 250px;
-
-    }
-    .delete.btn{
-        position:absolute;
-        top:8px;
-        right: 8px;
-        min-width: 28px;
-    }
 </style>

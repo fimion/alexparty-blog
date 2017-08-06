@@ -1,12 +1,11 @@
 <template>
-  <div class="hello">
     <div v-if="isSinglePost" class="posts">
-      <div class="post">
+      <div class="post card">
+        <h2>{{getSinglePost.title}}</h2>
         <div class="date">
           {{getDate(getSinglePost.date)}}
         </div>
-        <h2>{{getSinglePost.title}}</h2>
-        <div class="content card" v-html="getSinglePost.content">
+        <div class="content" v-html="getSinglePost.content">
         </div>
       </div>
       <router-link to="/posts" class="btn">Back to Posts</router-link>
@@ -15,19 +14,15 @@
       </div>
     </div>
     <div v-else>
-    <h1>{{ msg }}</h1>
-    <ul class="posts">
-      <li v-for="(post, index) in posts" class="post">
+      <div v-for="(post, index) in posts" class="card post">
+        <h2><router-link :to="'/posts/'+post.date">{{post.title}}</router-link></h2>
         <div class="date">
           {{getDate(post.date)}}
         </div>
-        <h2><router-link :to="'/posts/'+post.date">{{post.title}}</router-link></h2>
-        <div class="content card" v-html="post.content">
+        <div class="content" v-html="post.content">
         </div>
-      </li>
-    </ul>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -100,48 +95,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
+  @media screen and (min-width: 1000px){
+    @supports (grid-area: auto) {
 
-.posts {
-  padding: 0;
-  text-align: center;
-}
-
-.post {
-  display: block;
-  margin: 8px auto;
-  text-align: left;
-  max-width: 500px;
-  width:100%;
-  position:relative;
-}
-
-.post h2{
-  border-bottom: 4px solid #f6f6f6;
-  line-height:1em;
-  margin:0;
-  padding:0;
-}
-
-.post .content{
-
-}
-
-.post .date{
-  position:absolute;
-  top:8px;
-  right:8px;
-  text-align: right;
-}
-
-
-
-  @media screen and (max-width:1024px){
-    .post .date{
-      position: static;
-      float:right;
     }
   }
 </style>

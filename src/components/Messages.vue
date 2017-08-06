@@ -29,16 +29,5 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.messages{
- position:fixed;
- bottom:0;
- right:32px;
- padding:8px;
- width:100%;
- max-width: 300px;
-}
- .message{
-  min-height: 50px;
-  cursor:pointer;
- }
+
 </style>

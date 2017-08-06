@@ -13,6 +13,8 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import ApPost from './components/ApPost'
+
 axios.defaults.baseURL = 'https://jsonbin.org';
 
 
@@ -36,9 +38,11 @@ router.beforeEach(function (to, from, next) {
     }
 });
 
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
+Vue.component('post-card', ApPost);
 
-Vue.config.productionTip = false
+
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({

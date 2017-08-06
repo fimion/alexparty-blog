@@ -25,6 +25,7 @@ export default new Vuex.Store({
     _username: process.env.USER_NAME,
     _postsName: process.env.POSTS_NAME,
     _pagesName: process.env.POSTS_NAME,
+    _menuOpen: false,
   },
   getters,
   mutations,

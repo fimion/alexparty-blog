@@ -15,5 +15,5 @@ export default {
   },
   siteTitle(){
     return SITE_TITLE;
-  }
+  },
 }
