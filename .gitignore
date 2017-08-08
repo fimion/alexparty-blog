@@ -14,3 +14,4 @@ yarn-error.log*
 
 # private config stuff
 static/config.php
+static/posts.json

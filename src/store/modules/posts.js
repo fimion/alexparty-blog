@@ -6,7 +6,7 @@ import JsonBin from '../../api/jsonbin'
 const jb = JsonBin.create(process.env.LOCAL_URL);
 
 const state = {
-  _posts:[],
+  _posts: (typeof window.INITIALPOSTS === 'undefined')?[]:window.INITIALPOSTS,
   _postsErr:false
 };
 
@@ -49,6 +49,7 @@ const actions = {
         return 0;
       });
      context.commit('setPosts',data.data);
+      window.INITIALPOSTS = undefined;
       return Promise.resolve("success");
     }
     return Promise.reject("Returned data is not an Array.");

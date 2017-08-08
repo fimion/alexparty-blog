@@ -20,13 +20,13 @@ export default {
   },
   computed:{
     isSinglePost(){
-      if(typeof this.$route.params.date !== 'undefined'){
+      if(typeof this.$route.params !== 'undefined' && typeof this.$route.params.date !== 'undefined'){
         return true;
       }
       return false;
     },
     getSinglePost(){
-      if(typeof this.$route.params.date !== 'undefined'){
+      if(typeof this.$route.params !== 'undefined' && typeof this.$route.params.date !== 'undefined'){
         let postdate = this.$route.params.date;
           return this.getPostByDate(postdate);
       }
@@ -78,5 +78,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    @media screen and (min-width:1000px) {
+        @supports (display:grid) {
+            .posts{
+                display:grid;
+                grid-template-columns: repeat(6,1fr);
+                grid-auto-rows: 100px;
+                grid-gap: 8px;
+                justify-items: stretch;
+            }
 
+            .post.card{
+                grid-column-end: span 2;
+                grid-row-end: span 2;
+                margin:0;
+            }
+        }
+    }
 </style>

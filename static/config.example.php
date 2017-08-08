@@ -10,3 +10,4 @@
 define('USERNAME','jsonbinusername');
 define('PASSWORD','changeMe');
 define('APIKEY','jsonbinapikey');
+define('APIURL', 'https://jsonbin.org/');

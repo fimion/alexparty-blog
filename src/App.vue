@@ -70,15 +70,14 @@ a{
   }
   #router-view{
     grid-column-start: 2;
-    grid-column-end: 8;
+    grid-column-end: 7;
     grid-row-start: 2;
     grid-row-end: auto;
     margin-top: 128px;
   }
 
   #messages{
-    grid-column-start: 6;
-    grid-column-end: 8;
+    grid-column-start: 7;
     grid-row-start: 2;
     grid-row-end: auto;
     z-index: 5000;
@@ -94,6 +93,7 @@ a{
     border-radius: 2px;
     margin:0 auto 16px;
     max-width:800px;
+    padding:16px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
   .card.bs2{
@@ -117,6 +117,7 @@ a{
       }
       #sidebar{
         text-align: center;
+        min-height: calc(100vh - 64px);
       }
       #router-view{
         margin-top: 0;

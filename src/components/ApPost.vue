@@ -1,10 +1,8 @@
 <template>
     <div v-if="!excerpt">
         <div class="post">
+            <div class="date">{{getDate(post.date)}}</div>
             <h2>{{post.title}}</h2>
-            <div class="date">
-                {{getDate(post.date)}}
-            </div>
             <div class="content" v-html="postContent">
             </div>
         </div>
@@ -14,10 +12,8 @@
         </div>
     </div>
     <div class="post" v-else>
+        <div class="date">{{getDate(post.date)}}</div>
         <h2><router-link :to="'/posts/'+post.date">{{post.title}}</router-link></h2>
-        <div class="date">
-            {{getDate(post.date)}}
-        </div>
         <div class="content" v-html="postContent">
         </div>
     </div>
@@ -51,7 +47,10 @@
     computed:{
       postContent(){
             if(this.excerpt){
-              return this.post.content;
+
+              var tmp = document.implementation.createHTMLDocument("New").body;
+              tmp.innerHTML = this.post.content;
+              return (tmp.textContent || tmp.innerText || "").slice(0,100)+((this.post.content.length>100)?'...':'');
             }
             return this.post.content;
           },
@@ -77,8 +76,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .date{float:right; padding: 4px 8px;}
+    .content{text-align: left;}
+
+
     @media screen and (min-width: 1000px){
-        @supports (grid-area: auto) {
+        @supports (display:grid) {
 
         }
     }
