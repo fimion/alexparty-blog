@@ -1,21 +1,25 @@
 <template>
-    <ap-post v-if="isSinglePost" :post="getSinglePost" class="card">
-    </ap-post>
-    <div class="posts" v-else>
-      <template v-for="(post, index) in posts">
-        <ap-post :post="post" :excerpt="true" class="card"></ap-post>
-      </template>
+    <div v-if="!loading">
+        <ap-post v-if="isSinglePost" :post="getSinglePost" class="card">
+        </ap-post>
+        <div class="posts" v-else>
+          <template v-for="(post, index) in posts">
+            <ap-post :post="post" :excerpt="true" class="card"></ap-post>
+          </template>
+        </div>
     </div>
+    <div v-else>{{msg}}</div>
 </template>
 
 <script>
 import {mapGetters,mapActions,mapMutations} from 'vuex'
-import VueDisqus from 'vue-disqus/VueDisqus.vue'
 export default {
   name: 'posts',
   data () {
     return {
       msg: 'Loading...',
+      loading:true,
+
     }
   },
   computed:{
@@ -51,6 +55,7 @@ export default {
       },
       updateMsg(data){
         this.msg = "Welcome to Alex.Party!"
+        this.loading = false
       },
       oops(data){
         this.msg = this.$store.posts._postsErr;
@@ -60,19 +65,14 @@ export default {
           return mydate.toLocaleDateString();
       },
       getPostByDate(date){
-        let arrlength = (this.posts).length;
-        for(let x=0; x< arrlength; x++){
-          if(parseInt(this.posts[x].date) === parseInt(date)) return this.posts[x];
-        }
+        let arr = this.posts.filter(e=>parseInt(e.date)===parseInt(date))
+        return arr[0]
       },
     ...mapActions(['getPosts'])
   },
-  mounted: function() {
+  created: function() {
       this.updatePosts();
   },
-  components:{
-    VueDisqus
-  }
 }
 </script>
 

@@ -54,8 +54,7 @@
                 </div>
                 <div class="input"><button @click="editPost" type="submit" class="btn" >Submit</button></div>
             </div>
-
-
+            <ap-post :post="{content:postBody,date:postDate,title:postTitle}" class="card"/>
         </div>
         <pre>{{ error }}</pre>
     </div>
@@ -65,6 +64,7 @@
     import {mapGetters, mapState, mapActions, mapMutations} from 'vuex'
     import flatPickr from 'vue-flatpickr-component'
     import 'flatpickr/dist/flatpickr.css'
+    const ApPost = ()=>import(/* webpackChunkName:'ap-post.component'*/'@/components/ApPost');
    export default{
         name: 'admin',
         data () {
@@ -172,7 +172,8 @@
             this.checkForPosts();
         },
      components:{
-          flatPickr
+       flatPickr,
+       ApPost,
      }
 
     }

@@ -1,27 +1,26 @@
 <template>
     <div v-if="!excerpt">
         <div class="post">
-            <div class="date">{{getDate(post.date)}}</div>
+            <div class="date">{{getDate}}</div>
             <h2>{{post.title}}</h2>
-            <div class="content" v-html="postContent">
-            </div>
+            <vue-markdown class="content" :source="postContent"/>
         </div>
         <router-link to="/posts" class="btn">Back to Posts</router-link>
         <div class="disqus">
-            <vue-disqus :shortname="disqusName" :identifier="post.date.toString()" :url="getSinglePostUrl" :title="post.title"></vue-disqus>
+            <vue-disqus  :shortname="disqusName" :identifier="post.date.toString()" :url="getSinglePostUrl" :title="post.title"></vue-disqus>
         </div>
     </div>
     <div class="post" v-else>
-        <div class="date">{{getDate(post.date)}}</div>
+        <div class="date">{{getDate}}</div>
         <h2><router-link :to="'/posts/'+post.date">{{post.title}}</router-link></h2>
-        <div class="content" v-html="postContent">
-        </div>
+        <vue-markdown class="content" :source="postContent"/>
     </div>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
-  import VueDisqus from 'vue-disqus/VueDisqus.vue'
+  const VueDisqus = ()=>import(/* webpackChunkName:'vue-disqus.component' */'vue-disqus/VueDisqus.vue');
+  const VueMarkdown = ()=>import(/* webpackChunkName:'vue-markdown.component' */'vue-markdown');
   export default {
     name: 'ap-post',
     data() {
@@ -34,10 +33,10 @@
           return(typeof post.title !== 'undefined'
             &&  typeof post.content !== 'undefined'
             &&  typeof post.date !== 'undefined');
-          }
-        },
-        default: function(){
-          return {title:'',content:'',date:Date.now()};
+          },
+            default: function(){
+              return {title:'',content:'',date:Date.now()};
+            },
         },
         excerpt:{
           type:Boolean,
@@ -47,15 +46,16 @@
     computed:{
       postContent(){
             if(this.excerpt){
-
-              var tmp = document.implementation.createHTMLDocument("New").body;
-              tmp.innerHTML = this.post.content;
-              return (tmp.textContent || tmp.innerText || "").slice(0,100)+((this.post.content.length>100)?'...':'');
+              return this.post.content.slice(0,100)+((this.post.content.length>100)?'...':'');
             }
             return this.post.content;
           },
       getSinglePostUrl(){
         return this.disqusUrl+this.post.date;
+      },
+      getDate(){
+        let mydate = new Date(this.post.date);
+        return mydate.toLocaleDateString();
       },
       ...mapGetters({
         disqusName:'disqusName',
@@ -63,13 +63,10 @@
       })
     },
     methods:{
-      getDate(date){
-        let mydate = new Date(date);
-        return mydate.toLocaleDateString();
-      }
     },
     components:{
-      VueDisqus
+      VueDisqus,
+      VueMarkdown,
     }
   };
 </script>
@@ -78,7 +75,7 @@
 <style scoped>
 
     .date{float:right; padding: 4px 8px;}
-    .content{text-align: left;}
+    .content{text-align: left; white-space: pre-wrap;}
 
 
     @media screen and (min-width: 1000px){

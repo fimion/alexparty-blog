@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Posts from './views/Posts'
-import Admin from './views/Admin'
-import Login from './views/Login'
-import Logout from './views/Logout'
+const Posts = ()=>import(/* webpackChunkName:'posts.view' */'./views/Posts')
+const Admin = ()=>import(/* webpackChunkName:'admin.view' */'./views/Admin')
+const Login = ()=>import(/* webpackChunkName:'login.view' */'./views/Login')
+const Logout = ()=>import(/* webpackChunkName:'logout.view' */'./views/Logout')
 
 Vue.use(Router);
 
